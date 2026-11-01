@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberSentinel AI | Cyber Defense System</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;800&display=swap');
+
+:root {
+  --green:#00ff88;
+  --cyan:#00e5ff;
+  --red:#ff355e;
+  --yellow:#ffd166;
+  --bg:#050a08;
+  --panel:#0a1511;
+  --border:#164b32;
+  --muted:#8aa99a;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:#d6ffe9;
+  font-family:'Share Tech Mono',monospace;
+  background-image:
+    linear-gradient(rgba(0,255,136,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,255,136,.025) 1px,transparent 1px);
+  background-size:35px 35px;
+}
+
+header{
+  padding:25px 6%;
+  background:#07100c;
+  border-bottom:1px solid var(--green);
+  box-shadow:0 0 25px #00ff8820;
+}
+
+.brand{
+  font-family:Orbitron,sans-serif;
+  font-size:clamp(22px,4vw,32px);
+  color:var(--green);
+  letter-spacing:2px;
+  text-shadow:0 0 15px #00ff88;
+}
+
+header p{color:var(--muted);margin-bottom:0}
+
+.status{
+  color:var(--green);
+  margin-top:12px;
+  font-size:13px;
+}
+
+.status span{
+  display:inline-block;
+  width:8px;height:8px;
+  border-radius:50%;
+  background:var(--green);
+  box-shadow:0 0 12px var(--green);
+  margin-right:8px;
+}
+
+main{max-width:1250px;margin:30px auto;padding:0 20px}
+
+.section-title{
+  color:var(--cyan);
+  font-family:Orbitron,sans-serif;
+  font-size:15px;
+  letter-spacing:1px;
+  margin-bottom:18px;
+}
+
+.panel{
+  background:linear-gradient(145deg,#0b1912,#07100c);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:22px;
+  margin-bottom:22px;
+  box-shadow:0 0 18px #00ff8808;
+}
+
+.panel:hover{border-color:#00a85c}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+
+.stat{
+  background:#07110c;
+  border:1px solid #174b32;
+  border-radius:7px;
+  padding:20px;
+}
+
+.stat label{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.stat strong{
+  display:block;
+  font-family:Orbitron,sans-serif;
+  font-size:29px;
+  margin-top:12px;
+  color:var(--green);
+  text-shadow:0 0 12px #00ff8870;
+}
+
+textarea{
+  width:100%;
+  min-height:200px;
+  background:#020604;
+  color:var(--green);
+  border:1px solid #17623c;
+  border-radius:5px;
+  padding:15px;
+  font-family:'Share Tech Mono',monospace;
+  font-size:14px;
+  outline:none;
+  resize:vertical;
+}
+
+textarea:focus{
+  border-color:var(--green);
+  box-shadow:0 0 12px #00ff8830;
+}
+
+button{
+  background:transparent;
+  color:var(--green);
+  border:1px solid var(--green);
+  padding:13px 22px;
+  font-family:Orbitron,sans-serif;
+  font-size:12px;
+  letter-spacing:1px;
+  cursor:pointer;
+  border-radius:4px;
+  margin-top:15px;
+  transition:.2s;
+}
+
+button:hover{
+  background:var(--green);
+  color:#001b0d;
+  box-shadow:0 0 20px #00ff8870;
+}
+
+.alert{
+  background:#101a14;
+  border-left:4px solid var(--green);
+  padding:15px;
+  margin:12px 0;
+  border-radius:4px;
+}
+
+.high{border-left-color:var(--red);color:#ff8799}
+.medium{border-left-color:var(--yellow);color:var(--yellow)}
+.low{border-left-color:var(--green);color:var(--green)}
+
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:13px;border-bottom:1px solid #193c2b}
+th{color:var(--cyan);font-family:Orbitron,sans-serif;font-size:11px}
+td{color:#b9d9c7}
+tr:hover{background:#10251a}
+
+.timeline-item{
+  border-left:2px solid var(--green);
+  padding:8px 15px;
+  margin:12px 0;
+  color:#b9d9c7;
+}
+
+.muted{color:var(--muted);font-size:12px}
+
+footer{
+  text-align:center;
+  padding:30px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
+  font-size:12px;
+}
+
+@media(max-width:600px){
+  main{padding:0 12px}
+  .panel{padding:15px}
+  table{font-size:11px}
+  th,td{padding:8px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">[ CYBERSENTINEL AI ]</div>
+  <p>ADVANCED CYBER THREAT DETECTION & INVESTIGATION SYSTEM</p>
+  <div class="status"><span></span>SYSTEM ONLINE // LOG ANALYSIS READY</div>
+</header>
+
+<main>
+
+<section class="panel">
+  <div class="section-title">// SECURITY LOG INPUT</div>
+  <p class="muted">Paste CSV logs: timestamp, source_ip, event, username</p>
+
+  <textarea id="logs">timestamp,source_ip,event,username
+2026-11-01 10:00:00,192.168.1.20,login_failed,admin
+2026-11-01 10:00:05,192.168.1.20,login_failed,root
+2026-11-01 10:00:10,192.168.1.20,login_failed,user1
+2026-11-01 10:01:00,10.0.0.5,login_success,neeraj
+2026-11-01 10:02:00,192.168.1.20,file_access,admin</textarea>
+
+  <button onclick="analyze()">[ EXECUTE THREAT SCAN ]</button>
+  <p class="muted">LOCAL BROWSER ANALYSIS // LOGS ARE NOT SENT TO A SERVER</p>
+</section>
+
+<section class="panel">
+  <div class="section-title">// SYSTEM OVERVIEW</div>
+  <div class="stats">
+    <div class="stat">
+      <label>TOTAL EVENTS</label>
+      <strong id="events">0</strong>
+    </div>
+    <div class="stat">
+      <label>FAILED LOGINS</label>
+      <strong id="failures">0</strong>
+    </div>
+    <div class="stat">
+      <label>SUSPICIOUS IPS</label>
+      <strong id="ips">0</strong>
+    </div>
+    <div class="stat">
+      <label>HIGH ALERTS</label>
+      <strong id="alerts" style="color:var(--red)">0</strong>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="section-title">// THREAT DETECTION ENGINE</div>
+  <div id="results">Waiting for security log analysis...</div>
+</section>
+
+<section class="panel">
+  <div class="section-title">// ATTACK TIMELINE</div>
+  <div id="timeline">No events detected yet.</div>
+</section>
+
+<section class="panel">
+  <div class="section-title">// SECURITY EVENT RECORDS</div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>TIMESTAMP</th>
+          <th>SOURCE IP</th>
+          <th>EVENT</th>
+          <th>USERNAME</th>
+        </tr>
+      </thead>
+      <tbody id="eventTable"></tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  CYBERSENTINEL AI // CYBER DEFENSE SYSTEM<br><br>
+  PROTECT • DETECT • INVESTIGATE
+</footer>
+
+<script>
+function escapeHTML(value){
+  return String(value).replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",
+    '"':"&quot;","'":"&#39;"
+  }[c]));
+}
+
+function analyze(){
+  const lines=document.getElementById("logs").value.trim().split(/\r?\n/);
+
+  if(lines.length<2){
+    alert("Enter valid CSV security logs.");
+    return;
+  }
+
+  const headers=lines[0].split(",").map(x=>x.trim().toLowerCase());
+  const required=["timestamp","source_ip","event","username"];
+
+  if(!required.every(x=>headers.includes(x))){
+    alert("Required columns: timestamp, source_ip, event, username");
+    return;
+  }
+
+  const rows=[];
+
+  for(const line of lines.slice(1)){
+    if(!line.trim())continue;
+    const values=line.split(",");
+    if(values.length!==headers.length)continue;
+
+    const row={};
+    headers.forEach((h,i)=>row[h]=values[i].trim());
+    rows.push(row);
+  }
+
+  const failed=rows.filter(r=>r.event.toLowerCase()==="login_failed");
+  const counts={};
+  const users={};
+
+  failed.forEach(r=>{
+    counts[r.source_ip]=(counts[r.source_ip]||0)+1;
+    (users[r.source_ip]??=new Set()).add(r.username);
+  });
+
+  const suspicious=Object.keys(counts).filter(ip=>counts[ip]>=3);
+
+  document.getElementById("events").textContent=rows.length;
+  document.getElementById("failures").textContent=failed.length;
+  document.getElementById("ips").textContent=suspicious.length;
+  document.getElementById("alerts").textContent=suspicious.length;
+
+  let html="";
+
+  if(!failed.length){
+    html+='<div class="alert low">[ LOW ] No failed login attempts found.</div>';
+  }
+
+  Object.keys(counts).forEach(ip=>{
+    const severity=counts[ip]>=3?"HIGH":users[ip].size>=3?"MEDIUM":"LOW";
+    const cls=severity.toLowerCase();
+
+    html+=`<div class="alert ${cls}">
+      <b>[ ${severity} ALERT ]</b><br><br>
+      SOURCE IP: ${escapeHTML(ip)}<br>
+      FAILED ATTEMPTS: ${counts[ip]}<br>
+      TARGETED ACCOUNTS: ${users[ip].size}
+    </div>`;
+  });
+
+  if(suspicious.length){
+    html+='<div class="alert medium"><b>[ RESPONSE RECOMMENDATION ]</b><br><br>Investigate suspicious IP addresses, review authentication records, and consider blocking confirmed malicious sources according to your security policy.</div>';
+  }else{
+    html+='<div class="alert low">[ STATUS ] No high-severity repeated-login pattern detected.</div>';
+  }
+
+  document.getElementById("results").innerHTML=html;
+
+  const sorted=[...rows].sort((a,b)=>a.timestamp.localeCompare(b.timestamp));
+
+  document.getElementById("timeline").innerHTML=sorted.map(r=>
+    `<div class="timeline-item">
+      ${escapeHTML(r.timestamp)}<br>
+      <span style="color:var(--cyan)">${escapeHTML(r.event)}</span>
+      // ${escapeHTML(r.source_ip)}
+      // USER: ${escapeHTML(r.username)}
+    </div>`
+  ).join("")||"No events available.";
+
+  document.getElementById("eventTable").innerHTML=sorted.map(r=>
+    `<tr>
+      <td>${escapeHTML(r.timestamp)}</td>
+      <td>${escapeHTML(r.source_ip)}</td>
+      <td>${escapeHTML(r.event)}</td>
+      <td>${escapeHTML(r.username)}</td>
+    </tr>`
+  ).join("");
+}
+
+analyze();
+</script>
+
+</body>
+</html>
